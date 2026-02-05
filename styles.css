@@ -1,0 +1,548 @@
+/* =========================
+   styles.css (FULL)
+   ========================= */
+
+:root{
+  --bg:#0b0f17;
+  --card:#111827;
+  --muted:#94a3b8;
+  --text:#e5e7eb;
+  --border:#243041;
+  --shadow: 0 20px 60px rgba(0,0,0,.55);
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#0b0f17,#070a10);
+  color:var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
+}
+
+.container{
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 16px;
+}
+
+h1{margin:0 0 16px; font-size:28px}
+
+.controls{margin: 8px 0 16px}
+
+.controls.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:end;
+}
+
+.field{
+  flex:1;
+  min-width: 240px;
+}
+
+label{
+  display:block;
+  margin: 0 0 8px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#0f172a;
+  color:var(--text);
+  outline:none;
+  font-size:16px;
+  font-family: 'cairo';
+}
+
+/* Skin label */
+.skin-label{
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  margin: 6px 0 18px;
+  font-weight:600;
+}
+
+/* Brand label */
+.brand-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  margin: 6px 0 18px;
+  background: rgba(59,130,246,.10);
+  color:#dbeafe;
+  font-weight:600;
+  width: fit-content;
+}
+
+.brand-logo{
+  width:26px;
+  height:26px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  object-fit:cover;
+  background:#0f172a;
+}
+
+/* Frame + grid */
+.frame{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+  background: rgba(17,24,39,.5);
+}
+
+.frame-title{margin:0 0 14px; font-size:18px; color: #cbd5e1}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:12px;
+}
+
+@media (max-width: 980px){
+  .grid{grid-template-columns: repeat(2, minmax(0, 1fr));}
+}
+@media (max-width: 520px){
+  .grid{grid-template-columns: 1fr;}
+}
+
+.card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  background: rgba(17,24,39,.9);
+  overflow:hidden;
+  cursor:pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.card{ position:relative; }
+
+.night-badge{
+  position:absolute;
+  top:10px;
+  left:50%;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.35),
+    0 0 0 6px rgba(255,255,255,.08),
+    0 0 28px rgba(180,220,255,.55);
+
+  animation: nightFloat 3.8s ease-in-out infinite;
+  z-index:3;
+}
+
+.night-badge svg{
+  width:100%;
+  height:100%;
+  fill:#0b0f17;
+  transform: scale(0.77);   /* ⬅️ كبّره/صغّره جوه الدايرة */
+  filter:
+    drop-shadow(0 2px 4px rgba(0,0,0,.35));
+}
+
+
+
+.card:hover  , .card img:hover{
+  transform: translateY(-2px);
+  border-color:#3b82f6;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.card img{
+  margin-top: 15px;
+  width:200px;         /* كانت 160 */
+  height:200px;        /* كانت 120 */      /* زودنا الارتفاع شوية */
+  object-fit:contain;  /* الصورة كاملة */
+  display:block;
+  background:#0f172a;
+  border-radius: 20px;
+  border:2px solid var(--border);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  
+
+  
+}
+
+
+.card .p{
+  padding:12px;
+  text-align: center;
+  
+}
+
+.card h3 { 
+  text-align: center;
+  font-size: 15px;
+}
+
+.card .name{
+  margin:0 0 6px;
+  font-size:16px;
+  line-height:1.3;
+  text-align: center;
+}
+
+.card .desc{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  max-height: 42px;
+  overflow:hidden;
+  display: none;
+  text-align: center;
+}
+
+.empty{
+  padding:16px;
+  color:var(--muted);
+}
+
+/* Overlay + panel */
+.overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index: 999;
+  overflow: visible; /* مهم للـ magnifier */
+}
+
+.panel{
+  width: min(900px, 100%);
+  max-height: 85vh;              /* ✅ يمنع البانل يطول زيادة */
+  background: #0b1220;
+  border:1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  transform: scale(.98);
+  animation: pop .14s ease forwards;
+  position:relative;
+
+  display: flex;                 /* ✅ مهم */
+  flex-direction: column;        /* ✅ مهم */
+  overflow: hidden;              /* ✅ يمنع تمدد المحتوى *//
+}
+
+@keyframes pop{
+  to { transform: scale(1); }
+}
+
+.close{
+  position: sticky;   /* ✅ بدل absolute */
+  top: 10px;
+  left: 10px;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#0f172a;
+  color:var(--text);
+  cursor:pointer;
+  z-index: 50;        /* ✅ فوق كل حاجة */
+}
+
+.panel-header{
+  display:flex;
+  gap:16px;
+  padding:16px;
+  border-bottom:1px solid var(--border);
+  overflow: visible;
+  align-items: flex-start;
+  
+  
+}
+
+.panel-head-text {
+  text-align: center;
+  
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* الصورة الأساسية ثابتة + كورسر عدسة */
+.panel-img{
+  width:320px;         /* كانت 160 */
+  height:320px;        /* كانت 120 */
+  border-radius:14px;
+  object-fit:contain;  /* الصورة كاملة */
+  background:#0f172a;
+  border:1px solid var(--border);
+  cursor: zoom-in;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.03);
+
+  /* shadow من كل الجوانب + glow أزرق مناسب للخلفية الزرقا */
+  box-shadow:
+    0 0 18px rgba(56,189,248,0.25),   /* glow خارجي */
+    0 0 45px rgba(59,130,246,0.15),   /* glow أعمق */
+    0 12px 30px rgba(0,0,0,0.25);     /* عمق طبيعي */
+}
+@media (max-width: 900px){
+  .panel-img{ width: 240px; height: 240px; }
+}
+@media (max-width: 520px){
+  .panel-header{ flex-direction: column; align-items: center; }
+  .panel-img{ width: 220px; height: 220px; }
+}
+
+.panel-img-wrap{
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.panel-night-badge{
+  position:absolute;
+  top:-14px;              /* ⬅️ طالع لبرّه الصورة */
+  left:50%;
+  transform: translateX(-50%);
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  background:rgba(255,255,255,.96);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:15;
+  overflow:hidden;
+
+  /* إحساس البروز */
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.35),
+    0 0 0 6px rgba(255,255,255,.08),
+    0 0 28px rgba(180,220,255,.55);
+
+  animation: nightFloat 3.8s ease-in-out infinite;
+}
+
+
+.panel-night-badge svg{
+  width:100%;
+  height:100%;
+  fill:#0b0f17;
+  transform: scale(0.77);
+  filter:
+    drop-shadow(0 2px 4px rgba(0,0,0,.35));
+}
+@keyframes nightFloat{
+  0%{
+    transform: translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      0 8px 20px rgba(0,0,0,.35),
+      0 0 0 6px rgba(255,255,255,.08),
+      0 0 24px rgba(180,220,255,.45);
+  }
+  50%{
+    transform: translateX(-50%) translateY(-6px) scale(1.05);
+    box-shadow:
+      0 14px 32px rgba(0,0,0,.45),
+      0 0 0 8px rgba(255,255,255,.12),
+      0 0 38px rgba(180,220,255,.65);
+  }
+  100%{
+    transform: translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      0 8px 20px rgba(0,0,0,.35),
+      0 0 0 6px rgba(255,255,255,.08),
+      0 0 24px rgba(180,220,255,.45);
+  }
+}
+
+
+
+.panel-head-text h3{margin:0 0 6px; font-size:20px}
+.muted{color:var(--muted); margin:0}
+
+.panel-body{
+  padding:16px;
+  display:grid;
+  gap:14px;
+
+  overflow-y: auto;              /* ✅ scroll داخلي */
+  max-height: calc(85vh - 110px);/* ✅ مساحة بعد الهيدر والزر */
+}
+
+.section {
+  /* border: 3px solid rgb(240, 240, 219); */
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.03);
+
+  /* shadow من كل الجوانب + glow أزرق مناسب للخلفية الزرقا */
+  box-shadow:
+    0 0 18px rgba(56,189,248,0.25),   /* glow خارجي */
+    0 0 45px rgba(59,130,246,0.15),   /* glow أعمق */
+    0 12px 30px rgba(0,0,0,0.25);     /* عمق طبيعي */
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  will-change: transform, box-shadow;
+  
+  
+  
+ 
+  
+  
+}
+
+
+.section:hover{
+  transform: translateY(-6px);
+  border-color: rgba(56,189,248,0.35);
+
+  box-shadow:
+    0 0 22px rgba(56,189,248,0.35),
+    0 0 60px rgba(59,130,246,0.22),
+    0 18px 45px rgba(0,0,0,0.30);
+}
+
+
+.panel-body .panelingred {
+  font-size: 12px;
+}
+
+.section h4{margin:0 20px; font-size:20px; color:#e9e4e4; font-weight: 900; font-family: 'cairo';}
+.section p{white-space: pre-line; margin:0 20px; color:#e2dfdf; line-height:1.7; font-size: 15px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+
+/* Label colors حسب نوع البشرة */
+.label-oily{ background: rgba(34,197,94,.18); color:#86efac; }
+.label-combination{ background: rgba(34,197,94,.10); color:#bbf7d0; }
+.label-sensitive{ background: rgba(248,113,113,.15); color:#fecaca; }
+.label-dry{ background: rgba(148,163,184,.16); color:#e2e8f0; }
+.label-allskin{ background: rgba(92, 233, 233, 0.16); color:#e2e8f0; }
+.label-normal{ background: rgba(255, 255, 255, 0.685); color:#ffffff; }
+.label-facebody{ background: rgba(45, 173, 55, 0.685); color:#ffffff; }
+.label-eye{background: rgba(226, 143, 17, 0.685); color:#ffffff;}
+.label-cica{background: rgba(226, 143, 17, 0.685); color:#ffffff;}
+.label-body{background: rgba(226, 143, 17, 0.685); color:#ffffff;}
+.label-nails{background: rgba(226, 143, 17, 0.685); color:#ffffff;}
+
+/* ===== Magnifier Preview جنب البانل ===== */
+.hover-preview{
+  position: fixed;
+  display: none;
+  width: 500px;
+  height: 420px;
+  padding: 10px;
+  left: 10px;
+  top: 120px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: #0b1220;
+  box-shadow: var(--shadow);
+
+  z-index: 10000;
+}
+
+/* الخلفية هي الصورة نفسها + زوم */
+.hover-preview-lens{
+  width:100%;
+  height:100%;
+  border-radius: 14px;
+  border:1px solid var(--border);
+  background-color:#0f172a;
+
+  background-repeat: no-repeat;
+  background-size: 300% 300%; /* default (هيتغير من JS) */
+  background-position: 50% 50%;
+}
+
+/* اختياري: علامة + في المنتصف */
+.hover-preview-lens::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to right, transparent calc(50% - 1px), rgba(255,255,255,.35) 50%, transparent calc(50% + 1px)),
+    linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255,255,255,.35) 50%, transparent calc(50% + 1px));
+  pointer-events:none;
+  border-radius: 14px;
+  opacity:.25;
+}
+
+/* لازم relative عشان ::after */
+.hover-preview-lens{ position: relative; }
+
+/* موبايل: اقفل الـ magnifier */
+@media (max-width: 700px){
+  .hover-preview{ display:none !important; }
+}
+
+
+ .bg-bubbles{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: radial-gradient(1200px 800px at 20% 10%, rgba(255,214,234,.35), transparent 60%),
+                radial-gradient(1000px 700px at 80% 20%, rgba(195,255,245,.25), transparent 55%),
+                radial-gradient(900px 600px at 50% 90%, rgba(226,214,255,.22), transparent 55%),
+                linear-gradient(180deg, #0b0f14, #070a0f);
+  }
+  #bubblesCanvas{
+    width: 100%;
+    height: 100%;
+    display:block;
+    filter: saturate(1.1);
+  }
+
+  /* اختياري: ضباب خفيف يعطي إحساس “سكين كير” */
+  .bg-bubbles::after{
+    content:"";
+    position:absolute; inset:-20%;
+    background:
+      radial-gradient(500px 300px at 30% 40%, rgba(255,255,255,.06), transparent 60%),
+      radial-gradient(520px 320px at 70% 55%, rgba(255,255,255,.05), transparent 60%);
+    filter: blur(10px);
+    opacity: .8;
+    transform: translateZ(0);
+  }
+
+  /* احترام تفضيل تقليل الحركة */
+  @media (prefers-reduced-motion: reduce){
+    .bg-bubbles{ background: linear-gradient(180deg, #0b0f14, #070a0f); }
+  }
+
+
+
+  
+  
+
+
+
+  /* IMPORTANT: خلي hidden آخر حاجة */
+.hidden{display:none !important}
+
+

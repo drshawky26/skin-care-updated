@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>منتجات العناية بالبشرة</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- SheetJS for reading Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+  <div class="bg-bubbles" aria-hidden="true">
+  <canvas id="bubblesCanvas"></canvas>
+</div>
+  <div class="container">
+    <h1>اختياراتك</h1>
+
+    <div class="controls row">
+      <div class="field">
+        <label for="skinSelect">اختار نوع بشرتك</label>
+        <select id="skinSelect">
+          <option value="" selected disabled>— اختر —</option>
+          <option value="oily">دهنيه</option>
+          <option value="combination">مختلطه</option>
+          <option value="sensitive">حساسة</option>
+          <option value="cica">بشره متضرره Damaged Skin</option>
+          
+          <option value="dry">جافه</option>
+          <option value="allskin">جميع أنواع البشره</option>
+          <option value="hair"> الشعر</option>
+          <option value="normal"> عاديه</option>
+          <option value="eye">كريم العين & العنايه بالرموش والحواجب</option>
+          <option value="body">للجسم</option>
+          <option value="nails">للأظافر</option>
+
+          <option value="facebody"> للوجه والجسم</option>
+        </select>
+      </div>
+ 
+      <div class="field">
+        <label for="brandSelect">اختار الشركه</label>
+        <select id="brandSelect">
+          <option value="" selected disabled>— اختر —</option>
+          <option value="">كل الشركات</option>
+
+          <option value="vichy">vichy</option>
+          <option value="larocheposay">la roche posay</option>
+          <option value="avene">avene</option>
+          <option value="isispharma">isisPharma</option>
+          <option value="bioderma">Bioderma</option>
+          <option value="eucerin">Eucerin</option>
+          <option value="acm">Acm</option>
+          <option value="uriage">Uriage</option>
+          <option value="cerave">CeraVe</option>
+          <option value="anivagen">Anivagen</option>
+          <option value="matriskin">Matriskin</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="categorySelect">اختار نوع المنتج</label>
+        <select id="categorySelect">
+          <option value="">جميع المنتجات</option>
+          <option value="cleanser">غسول</option>
+          <option value="moisturizer">مرطب</option>
+          <option value="toner">تونر</option>
+          <option value="sunscreen">صن سكرين</option>
+          <option value="wrinkles">تجاعيد</option>
+          <option value="finelines">الخطوط الدقيقه</option>
+          <option value="healing">Healing ترميم حاجز البشره</option>
+          <option value="exfoliating">مقشر</option>
+          <option value="brightening">تفتيح</option>
+          <option value="viltigo">بهاق</option>
+          <option value="micellar water">Micellar water</option>
+          <option value="lip balm">lip balm</option>
+          <option value="black heads">للحبوب والرؤس السوداء</option>
+          <option value="all hair"> جميع أنواع الشعر </option>
+          <option value="dry hair">الشعر الجاف</option>
+          <option value="normal hair">الشعر العادى</option>
+
+          <option value="oily hair">الشعر الدهنى</option>
+          <option value="volume hair">كثافه الشعر </option>
+          <option value="hair loss">تساقط الشعر </option>
+          <option value="hair dandruf">للقشره</option>
+          <option value="acne"> حب الشباب </option>
+          <option value="night care">العنايه اليليه</option>
+          <option value="hand">العنايه باليدين</option>
+          <option value="eye lash">العنايه بالرموش</option>
+          <option value="eye brow">العنايه بالحواجب</option>
+          <option value="firming">شد الترهلات والسيلوليت</option>
+          <option value="puffness">إنتفاخات العين</option>
+
+        </select>
+        
+      </div>
+
+      
+    </div>
+
+    <!-- Skin label -->
+   <div id="skinLabel" class="skin-label hidden">—</div>
+
+
+    <!-- Brand label -->
+    <div id="brandLabel" class="brand-label hidden">
+      <img id="brandLogo" class="brand-logo" src="" alt="logo" />
+      <span id="brandName">—</span>
+    </div>
+
+    <!-- Products frame -->
+    <div class="frame">
+      <h2 class="frame-title">المنتجات</h2>
+
+      <div id="grid" class="grid"></div>
+
+      <div id="emptyState" class="empty">
+        اختار نوع البشرة + الشركة علشان تظهر المنتجات
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Panel (Modal) -->
+  <div id="overlay" class="overlay hidden" aria-hidden="true">
+
+    <!-- Hover Preview جنب البانل (عنصر واحد) -->
+    <div id="hoverPreview" class="hover-preview" aria-hidden="true">
+  <div id="hoverPreviewLens" class="hover-preview-lens" aria-hidden="true"></div>
+  </div>
+
+    <div id="panel" class="panel" role="dialog" aria-modal="true">
+      <button id="closePanel" class="close" aria-label="إغلاق">✕</button>
+
+      <div class="panel-header">
+        <div class="panel-img-wrap">
+          <img id="panelImg" class="panel-img" alt="" />
+          <div id="panelNightBadge" class="panel-night-badge hidden" aria-hidden="true"></div>
+        </div>
+        
+        <div class="panel-head-text">
+          <h3 id="panelName"></h3>
+          <p id="panelDesc" class="muted"></p>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="section">
+          <h4>المكونات :</h4>
+          <p id="panelIngredients" class="panelingred"></p>
+        </div>
+
+        <div class="section">
+          <h4>الفايدة:</h4>
+          <p id="panelBenefits"></p>
+        </div>
+
+        <div class="section">
+          <h4>طريقة الاستخدام:</h4>
+          <p id="panelUsage"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your JS -->
+
+
+
+
+  
+  <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
